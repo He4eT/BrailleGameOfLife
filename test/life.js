@@ -6,37 +6,50 @@ import {
   lifeStep
 } from '../src/life'
 
-test('Count neighbours', t => {
-  const grid = [
-    [0, 0, 0],
-    [0, 0, 1],
-    [0, 1, 0]]
+/* countNeighbours */
 
-  const cn = countNeighbours(grid)
-  t.deepEqual(cn([0, 0]), [0, 0])
-  t.deepEqual(cn([0, 1]), [1, 0])
-  t.deepEqual(cn([0, 2]), [1, 0])
-  t.deepEqual(cn([1, 1]), [2, 0])
-  t.deepEqual(cn([2, 2]), [2, 0])
-  t.deepEqual(cn([1, 2]), [1, 1])
-})
+const grid = [
+  [0, 0, 0],
+  [0, 0, 1],
+  [0, 1, 0]]
 
-test('Dead or alive: from 0 to...', t => {
-  t.is(deadOrAlive([0, 0]), 0)
-  t.is(deadOrAlive([2, 0]), 0)
-  t.is(deadOrAlive([3, 0]), 1)
-  t.is(deadOrAlive([4, 0]), 0)
-  t.is(deadOrAlive([8, 0]), 0)
-})
+;[
+  [[0, 0], [0, 0]],
+  [[0, 1], [1, 0]],
+  [[0, 2], [1, 0]],
+  [[1, 1], [2, 0]],
+  [[2, 2], [2, 0]],
+  [[1, 2], [1, 1]]
+].forEach(([params, exp]) =>
+  test('Count neighbours: ' + params, t =>
+    t.deepEqual(
+      countNeighbours(grid)(params),
+      exp)))
 
-test('Dead or alive: from 1 to...', t => {
-  t.is(deadOrAlive([0, 1]), 0)
-  t.is(deadOrAlive([1, 1]), 0)
-  t.is(deadOrAlive([2, 1]), 1)
-  t.is(deadOrAlive([3, 1]), 1)
-  t.is(deadOrAlive([4, 1]), 0)
-  t.is(deadOrAlive([5, 1]), 0)
-})
+/* deadOrAlive */
+
+;[
+  [[0, 0], 0],
+  [[2, 0], 0],
+  [[3, 0], 1],
+  [[4, 0], 0],
+  [[8, 0], 0]
+].forEach(([params, exp]) =>
+  test('Dead or alive: from 0: ' + params, t =>
+    t.is(deadOrAlive(params), exp)))
+
+;[
+  [[0, 1], 0],
+  [[1, 1], 0],
+  [[2, 1], 1],
+  [[3, 1], 1],
+  [[4, 1], 0],
+  [[5, 1], 0]
+].forEach(([params, exp]) =>
+  test('Dead or alive: from 1: ' + params, t =>
+    t.is(deadOrAlive(params), exp)))
+
+/* lifeStep */
 
 test('Life step: block', t => {
   const block = [
